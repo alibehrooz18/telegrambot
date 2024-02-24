@@ -1,14 +1,9 @@
-import os
+from TTOKEN import BOT_TOKEN
 import telebot
 # import json
 import requests
 
-TOKEN = os.environ.get('6652334606:AAFg7QxWRi0HS76ZGG693c1X_qrkBF68Tvc')
-
-if TOKEN is None:
-    print("Error: BOT_TOKEN environment variable is not set.")
-    exit()
-
+TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TOKEN)
 URL = 'https://api.telegram.org/bot{}/'.format(TOKEN)
 

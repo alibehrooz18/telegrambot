@@ -1,11 +1,7 @@
-import os
+from MTOKEN import BOT_TOKEN
 import telebot
 
-TOKEN = os.environ.get('6319801047:AAHahLp6E0lT45vTkHNTyhBPadLE0iAmmn4')
-
-if TOKEN is None:
-    print("Error: BOT_TOKEN environment variable is not set.")
-    exit()
+TOKEN = BOT_TOKEN
 
 bot = telebot.TeleBot(TOKEN)
 
