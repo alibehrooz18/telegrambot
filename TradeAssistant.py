@@ -1,8 +1,14 @@
+import os
 import telebot
 # import json
 import requests
 
-TOKEN = '6652334606:AAFg7QxWRi0HS76ZGG693c1X_qrkBF68Tvc'
+TOKEN = os.environ.get('6652334606:AAFg7QxWRi0HS76ZGG693c1X_qrkBF68Tvc')
+
+if TOKEN is None:
+    print("Error: BOT_TOKEN environment variable is not set.")
+    exit()
+
 bot = telebot.TeleBot(TOKEN)
 URL = 'https://api.telegram.org/bot{}/'.format(TOKEN)
 
@@ -19,7 +25,7 @@ def send_welcome(message):
 
 # send help message
 @bot.message_handler(commands=['help'])
-def help(message):
+def help_message(message):
     bot.reply_to(message, """/start for start bot 
                                     \n /support for knowing what crypto is supported
                                     \n if you have any adea for developer you can send to :
@@ -82,5 +88,6 @@ def search(message):
     else:
         bot.reply_to(message, """your search not found
                                         \n enter full crypto name""")
+
 
 bot.infinity_polling()
