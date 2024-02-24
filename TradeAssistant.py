@@ -2,6 +2,7 @@ from TTOKEN import BOT_TOKEN
 import telebot
 import requests
 
+# It is kept in a local file for more security
 TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TOKEN)
 URL = 'https://api.telegram.org/bot{}/'.format(TOKEN)

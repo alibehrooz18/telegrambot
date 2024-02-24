@@ -1,6 +1,7 @@
 from MTOKEN import BOT_TOKEN
 import telebot
 
+# It is kept in a local file for more security
 TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TOKEN)
 
