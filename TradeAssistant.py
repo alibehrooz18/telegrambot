@@ -1,60 +1,88 @@
+from TTOKEN import BOT_TOKEN
 import telebot
-TOKEN = '6652334606:AAHUOXC3eXLyOIen4Ml9w1lnqXvBN7CzvUI'
+import requests
+
+# It is kept in a local file for more security
+TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TOKEN)
-# URL = 'https://api.telegram.org/bot{}/'.format(TOKEN)
+URL = 'https://api.telegram.org/bot{}/'.format(TOKEN)
 
 
+# send welcome message
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, """welcome to trade assistant bot
+    bot.reply_to(message, """welcome to crypto price bot
                                     \n it's demo version bot
+                                    \n /support for knowing what crypto is supported
                                     \n /help 
-                                    \n /support
-                                    \n Looking for what crypto ?
-                                    \n /BTC 
-                                    \n /ETH 
-                                    \n /TRX 
-                                    \n /SOL """)
-
-# send start message
+                                    \n if you have crypto name enter:""")
 
 
 # send help message
 @bot.message_handler(commands=['help'])
-def send_help(message):
+def help_message(message):
     bot.reply_to(message, """/start for start bot 
-                                    \n /support for knowing what crypto is supported   
-                                    \n for... """)
+                                    \n /support for knowing what crypto is supported
+                                    \n if you have any adea for developer you can send to :
+                                    \n "https://telegram.me/BChatBot?start=sc-1184589-2xwIyno" 
+                                    \n """)
 
 
 # send message for supported crypto
 @bot.message_handler(commands=['support'])
-def send_support(message):
+def support(message):
     bot.reply_to(message, """for now we are supporting 
-                                    \n /BTC 
-                                    \n /ETH 
-                                    \n /TRX 
-                                    \n /SOL 
-                                    \n is soon adding more cryptocurrencies """)
+                                    \n /BTCUSDT 
+                                    \n /ETHUSDT 
+                                    \n /TRXUSDT 
+                                    \n /SOLUSDT 
+                                    \n is soon add more cryptocurrencies """)
 
 
-@bot.message_handler(commands=['BTC'])
-def send_help(message):
-    bot.reply_to(message,f"BTC price is : {BTC} for now")
+@bot.message_handler(func=lambda m: True, commands=['BTCUSDT'])
+def show_btc(message):
+    symbol = message.text[1:]
+    response = requests.get(f'https://api.binance.com/api/v3/ticker/price?symbol={symbol}', timeout=30)
+    data = response.json()
+    bot.reply_to(message, f"{data['symbol']} price is {data['price']}")
 
-@bot.message_handler(commands=['ETH'])
-def send_help(message):
-    bot.reply_to(message, f"ETH price is : {ETH} for now")
-
-
-@bot.message_handler(commands=['TRX'])
-def send_help(message):
-    bot.reply_to(message, f"TRX price is : {TRX} for now")
+    print(response.status_code)
 
 
-@bot.message_handler(commands=['SOL'])
-def send_help(message):
-    bot.reply_to(message, f"SOL price is : {SOL} for now")
+@bot.message_handler(func=lambda m: True, commands=['ETHUSDT'])
+def show_eth(message):
+    symbol = message.text[1:]
+    response = requests.get(f'https://api.binance.com/api/v3/ticker/price?symbol={symbol}', timeout=30)
+    data = response.json()
+    bot.reply_to(message, f"{data['symbol']} price is {data['price']}")
+
+
+@bot.message_handler(func=lambda m: True, commands=['TRXUSDT'])
+def show_trx(message):
+    symbol = message.text[1:]
+    response = requests.get(f'https://api.binance.com/api/v3/ticker/price?symbol={symbol}', timeout=30)
+    data = response.json()
+    bot.reply_to(message, f"{data['symbol']} price is {data['price']}")
+
+
+@bot.message_handler(func=lambda m: True, commands=['SOLUSDT'])
+def show_sol(message):
+    symbol = message.text[1:]
+    response = requests.get(f'https://api.binance.com/api/v3/ticker/price?symbol={symbol}', timeout=30)
+    data = response.json()
+    bot.reply_to(message, f"{data['symbol']} price is {data['price']}")
+
+
+@bot.message_handler(func=lambda m: True)
+def search(message):
+    symbol = message.text.upper()
+    response = requests.get(f'https://api.binance.com/api/v3/ticker/price?symbol={symbol}', timeout=30)
+    if response.status_code == 200:
+        data = response.json()
+        bot.reply_to(message, f"{data['symbol']} price is {data['price']}")
+    else:
+        bot.reply_to(message, """your search not found
+                                        \n enter full crypto name""")
 
 
 bot.infinity_polling()

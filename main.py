@@ -1,5 +1,8 @@
+from MTOKEN import BOT_TOKEN
 import telebot
-TOKEN = '6319801047:AAHahLp6E0lT45vTkHNTyhBPadLE0iAmmn4'
+
+# It is kept in a local file for more security
+TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TOKEN)
 
 
