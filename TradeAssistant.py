@@ -1,6 +1,5 @@
 from TTOKEN import BOT_TOKEN
 import telebot
-# import json
 import requests
 
 TOKEN = BOT_TOKEN

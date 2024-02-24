@@ -2,7 +2,6 @@ from MTOKEN import BOT_TOKEN
 import telebot
 
 TOKEN = BOT_TOKEN
-
 bot = telebot.TeleBot(TOKEN)
 
 
